@@ -1,0 +1,19 @@
+{
+  "name": "adzerk-api-specification",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "generate": "node -r @swc-node/register src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@swc-node/register": "1.6.4",
+    "@tsconfig/node18": "2.0.0",
+    "@types/node": "18.15.12",
+    "typescript": "5.0.4"
+  },
+  "dependencies": {
+    "yaml": "2.2.1"
+  }
+}

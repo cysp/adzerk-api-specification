@@ -1,0 +1,1085 @@
+components:
+  schemas:
+    AdType:
+      properties:
+        Height:
+          format: int32
+          type: integer
+        Id:
+          format: int32
+          nullable: true
+          type: integer
+        Name:
+          nullable: true
+          type: string
+        Width:
+          format: int32
+          type: integer
+      type: object
+    AdTypeList:
+      properties:
+        items:
+          items:
+            $ref: "#/components/schemas/AdType"
+          type: array
+        page:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        totalItems:
+          format: int64
+          type: integer
+        totalPages:
+          format: int32
+          type: integer
+      type: object
+    Channel:
+      properties:
+        AdTypes:
+          items:
+            format: int32
+            type: integer
+          type: array
+        CPM:
+          default: 0
+          format: float
+          type: number
+        Commission:
+          deprecated: true
+          format: float
+          nullable: true
+          type: number
+        CustomTargeting:
+          deprecated: true
+          nullable: true
+          type: string
+        Engine:
+          default: "0"
+          nullable: true
+          type: string
+        Id:
+          format: int32
+          nullable: true
+          type: integer
+        IsDeleted:
+          nullable: true
+          type: boolean
+        Keywords:
+          deprecated: true
+          nullable: true
+          type: string
+        Title:
+          type: string
+      type: object
+    ChannelList:
+      properties:
+        ChannelIds:
+          items:
+            format: int32
+            type: integer
+          type: array
+      type: object
+    ChannelSiteMap:
+      properties:
+        ChannelId:
+          format: int32
+          type: integer
+        FixedPaymentAmount:
+          deprecated: true
+          format: float
+          nullable: true
+          type: number
+        Priority:
+          format: int32
+          nullable: true
+          type: integer
+        SiteId:
+          format: int32
+          type: integer
+      type: object
+    ChannelSiteMapList:
+      properties:
+        items:
+          items:
+            $ref: "#/components/schemas/ChannelSiteMap"
+          type: array
+        page:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        totalItems:
+          format: int64
+          type: integer
+        totalPages:
+          format: int32
+          type: integer
+      type: object
+    Priority:
+      properties:
+        ChannelId:
+          format: int32
+          nullable: true
+          type: integer
+        FloorPrice:
+          format: float
+          nullable: true
+          type: number
+        Id:
+          format: int32
+          nullable: true
+          type: integer
+        IsAdChain:
+          type: boolean
+        IsAdChainOptimized:
+          type: boolean
+        IsAdChainOrdered:
+          type: boolean
+        IsAuction:
+          type: boolean
+        IsDeleted:
+          type: boolean
+        IsKeywordOptimized:
+          nullable: true
+          type: boolean
+        IsSecondPricing:
+          nullable: true
+          type: boolean
+        Name:
+          type: string
+        PassbackTimeout:
+          format: int32
+          nullable: true
+          type: integer
+        RelevancyScoreConfig:
+          nullable: true
+          type: string
+        RelevancyScoreConfigJSON:
+          nullable: true
+          type: string
+        SelectionAlgorithm:
+          format: int32
+          type: integer
+        SerializeRelevancyScoreConfigJSON:
+          nullable: true
+          type: boolean
+        Weight:
+          format: int32
+          nullable: true
+          type: integer
+      type: object
+    PriorityList:
+      properties:
+        items:
+          items:
+            $ref: "#/components/schemas/Priority"
+          type: array
+        page:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        totalItems:
+          format: int64
+          type: integer
+        totalPages:
+          format: int32
+          type: integer
+      type: object
+    Site:
+      properties:
+        Id:
+          format: int32
+          nullable: true
+          type: integer
+        IsDeleted:
+          nullable: true
+          type: boolean
+        NetworkMargin:
+          format: float
+          nullable: true
+          type: number
+        PublisherAccountId:
+          deprecated: true
+          format: int32
+          nullable: true
+          type: integer
+        Title:
+          type: string
+        Url:
+          type: string
+      type: object
+    SiteList:
+      properties:
+        items:
+          items:
+            $ref: "#/components/schemas/Site"
+          type: array
+        page:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        totalItems:
+          format: int64
+          type: integer
+        totalPages:
+          format: int32
+          type: integer
+      type: object
+    Zone:
+      properties:
+        Id:
+          format: int32
+          nullable: true
+          type: integer
+        IsDeleted:
+          nullable: true
+          type: boolean
+        Name:
+          type: string
+        SiteId:
+          format: int32
+          type: integer
+      type: object
+    ZoneList:
+      properties:
+        items:
+          items:
+            $ref: "#/components/schemas/Zone"
+          type: array
+        page:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        totalItems:
+          format: int64
+          type: integer
+        totalPages:
+          format: int32
+          type: integer
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-Adzerk-ApiKey
+      type: apiKey
+info:
+  description: Adzerk Management API
+  title: Adzerk Management API
+  version: "1.0"
+openapi: 3.0.1
+paths:
+  /v1/adtypes:
+    get:
+      operationId: listAdTypes
+      parameters:
+        - description: The size of the page to be returned
+          in: query
+          name: pageSize
+          required: false
+          schema:
+            default: 500
+            format: int32
+            nullable: true
+            type: integer
+        - description: The page number to be returned
+          in: query
+          name: page
+          required: false
+          schema:
+            format: int32
+            nullable: true
+            type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdTypeList"
+          description: A paged list of Ad Types
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - ad-type
+    post:
+      operationId: createAdType
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                Height:
+                  format: int32
+                  type: integer
+                Name:
+                  type: string
+                Width:
+                  format: int32
+                  type: integer
+              required:
+                - Width
+                - Height
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdType"
+          description: The newly created Ad Type
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - ad-type
+  "/v1/adtypes/{id}/delete":
+    get:
+      operationId: deleteAdType
+      parameters:
+        - description: The Ad Type Id
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int32
+            type: integer
+      responses:
+        "200":
+          description: Successfully Deleted
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - ad-type
+  /v1/channel:
+    get:
+      operationId: listChannels
+      parameters:
+        - description: The size of the page to be returned
+          in: query
+          name: pageSize
+          required: false
+          schema:
+            default: 500
+            format: int32
+            nullable: true
+            type: integer
+        - description: The page number to be returned
+          in: query
+          name: page
+          required: false
+          schema:
+            format: int32
+            nullable: true
+            type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelList"
+          description: A paged list of Channels
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - channel
+    post:
+      operationId: createChannel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                AdTypes:
+                  items:
+                    format: int32
+                    type: integer
+                  type: array
+                CPM:
+                  format: float
+                  nullable: true
+                  type: number
+                Engine:
+                  default: 0
+                  format: int32
+                  type: integer
+                IsDeleted:
+                  default: false
+                  type: boolean
+                Title:
+                  type: string
+              required:
+                - Title
+                - AdTypes
+                - Engine
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Channel"
+          description: The newly created channel
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - channel
+  "/v1/channel/{channelId}/adtypes":
+    get:
+      operationId: listForChannelAdType
+      parameters:
+        - description: The size of the page to be returned
+          in: query
+          name: pageSize
+          required: false
+          schema:
+            default: 500
+            format: int32
+            nullable: true
+            type: integer
+        - description: The page number to be returned
+          in: query
+          name: page
+          required: false
+          schema:
+            format: int32
+            nullable: true
+            type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdTypeList"
+          description: A paged list of Ad Types
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - ad-type
+    parameters:
+      - description: The Channel Id
+        in: path
+        name: channelId
+        required: true
+        schema:
+          format: int32
+          type: integer
+    post:
+      operationId: createForChannelAdType
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                Height:
+                  format: int32
+                  type: integer
+                Name:
+                  type: string
+                Width:
+                  format: int32
+                  type: integer
+              required:
+                - Width
+                - Height
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdType"
+          description: The newly created Ad Type
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - ad-type
+  "/v1/channel/{channelId}/adtypes/{id}/delete":
+    get:
+      operationId: deleteForChannelAdType
+      parameters:
+        - description: The Channel Id
+          in: path
+          name: channelId
+          required: true
+          schema:
+            format: int32
+            type: integer
+        - description: The Ad Type Id
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int32
+            type: integer
+      responses:
+        "200":
+          description: Successfully Deleted
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - ad-type
+  "/v1/channel/{channelId}/site/{siteId}":
+    get:
+      operationId: getChannelSiteMap
+      parameters:
+        - description: The Channel Id
+          in: path
+          name: channelId
+          required: true
+          schema:
+            format: int32
+            type: integer
+        - description: The Site Id
+          in: path
+          name: siteId
+          required: true
+          schema:
+            format: int32
+            type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelSiteMap"
+          description: The Channel/Site Map
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - channel-site-map
+  "/v1/channel/{channelId}/site/{siteId}/delete":
+    get:
+      operationId: deleteChannelSiteMap
+      parameters:
+        - description: The Channel Id
+          in: path
+          name: channelId
+          required: true
+          schema:
+            format: int32
+            type: integer
+        - description: The Site Id
+          in: path
+          name: siteId
+          required: true
+          schema:
+            format: int32
+            type: integer
+      responses:
+        "200":
+          description: Successfully Deleted
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - channel-site-map
+  "/v1/channel/{id}":
+    get:
+      operationId: getChannel
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Channel"
+          description: The Channel
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - channel
+    parameters:
+      - description: The Channel Id
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+    put:
+      operationId: updateChannel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                AdTypes:
+                  items:
+                    format: int32
+                    type: integer
+                  type: array
+                Engine:
+                  default: 0
+                  format: int32
+                  type: integer
+                Id:
+                  format: int32
+                  type: integer
+                Title:
+                  type: string
+              required:
+                - Id
+                - Title
+                - AdTypes
+                - Engine
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Channel"
+          description: The updated Channel
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - channel
+  "/v1/channel/{id}/delete":
+    get:
+      operationId: deleteChannel
+      parameters:
+        - description: The Channel Id to delete
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int32
+            type: integer
+      responses:
+        "200":
+          description: Successfully Deleted
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - channel
+  "/v1/channel/{id}/priorities":
+    get:
+      operationId: getPrioritiesChannel
+      parameters:
+        - description: The Channel Id to get Priorities for
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int32
+            type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Priority"
+                type: array
+          description: A list of Priorities
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - channel
+  /v1/channelSite:
+    get:
+      operationId: listChannelSiteMaps
+      parameters:
+        - description: The size of the page to be returned
+          in: query
+          name: pageSize
+          required: false
+          schema:
+            default: 500
+            format: int32
+            nullable: true
+            type: integer
+        - description: The page number to be returned
+          in: query
+          name: page
+          required: false
+          schema:
+            format: int32
+            nullable: true
+            type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelSiteMapList"
+          description: A paged list of Channel/Site Maps
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - channel-site-map
+    post:
+      operationId: createChannelSiteMap
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                channelId:
+                  format: int32
+                  type: integer
+                priority:
+                  format: int32
+                  type: integer
+                siteId:
+                  format: int32
+                  type: integer
+              required:
+                - siteId
+                - channelId
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelSiteMap"
+          description: The newly created Channel/Site Map
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - channel-site-map
+    put:
+      operationId: updateChannelSiteMap
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                channelId:
+                  format: int32
+                  type: integer
+                priority:
+                  format: int32
+                  type: integer
+                siteId:
+                  format: int32
+                  type: integer
+              required:
+                - siteId
+                - channelId
+                - priority
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelSiteMap"
+          description: The updated Channel/Site Map
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - channel-site-map
+  "/v1/channelsInSite/{siteId}":
+    get:
+      operationId: listChannelsForSiteChannelSiteMap
+      parameters:
+        - description: The Site Id
+          in: path
+          name: siteId
+          required: true
+          schema:
+            format: int32
+            type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelList"
+          description: A list of Channel Ids
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - channel-site-map
+  /v1/fast/site:
+    get:
+      operationId: filterSite
+      parameters:
+        - description: Filters the stream of sites based on the Title. This is a simple
+            match - if the string provided in the query parameter is present
+            anywhere in a site's Title, that site will be returned in the
+            results.
+          in: query
+          name: titleLike
+          required: false
+          schema:
+            nullable: true
+            type: string
+        - description: Filters the stream of sites based on the Url. This is a simple
+            match - if the string provided in the query parameter is present
+            anywhere in a site's Url, that site will be returned in the results.
+          in: query
+          name: urlLike
+          required: false
+          schema:
+            nullable: true
+            type: string
+      responses:
+        "200":
+          content:
+            text:
+              schema:
+                type: string
+          description: A line-delimited string of JSON encoded sites
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - site
+  /v1/site:
+    get:
+      operationId: listSites
+      parameters:
+        - description: The size of the page to be returned
+          in: query
+          name: pageSize
+          required: false
+          schema:
+            default: 500
+            format: int32
+            nullable: true
+            type: integer
+        - description: The page number to be returned
+          in: query
+          name: page
+          required: false
+          schema:
+            format: int32
+            nullable: true
+            type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteList"
+          description: A paged list of Sites
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - site
+    post:
+      operationId: createSite
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                IsDeleted:
+                  default: false
+                  nullable: true
+                  type: boolean
+                NetworkMargin:
+                  format: float
+                  nullable: true
+                  type: number
+                Title:
+                  type: string
+                URL:
+                  format: uri
+                  type: string
+              required:
+                - Title
+                - URL
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Site"
+          description: The newly created Site
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - site
+  "/v1/site/{id}":
+    get:
+      operationId: getSite
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Site"
+          description: The Site
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - site
+    parameters:
+      - description: The Site Id
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+    put:
+      operationId: updateSite
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                Id:
+                  format: int32
+                  type: integer
+                IsDeleted:
+                  default: false
+                  nullable: true
+                  type: boolean
+                NetworkMargin:
+                  format: float
+                  nullable: true
+                  type: number
+                Title:
+                  type: string
+                URL:
+                  format: uri
+                  type: string
+              required:
+                - Id
+                - Title
+                - URL
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Site"
+          description: The updated Site
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - site
+  /v1/zone:
+    get:
+      operationId: listZones
+      parameters:
+        - description: The size of the page to be returned
+          in: query
+          name: pageSize
+          required: false
+          schema:
+            default: 500
+            format: int32
+            nullable: true
+            type: integer
+        - description: The page number to be returned
+          in: query
+          name: page
+          required: false
+          schema:
+            format: int32
+            nullable: true
+            type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ZoneList"
+          description: The newly created Zone
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - zone
+    post:
+      operationId: createZone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                IsDeleted:
+                  default: false
+                  nullable: true
+                  type: boolean
+                Name:
+                  type: string
+                SiteId:
+                  format: int32
+                  nullable: true
+                  type: integer
+              required:
+                - Name
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Zone"
+          description: The newly created Zone
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - zone
+  "/v1/zone/{id}":
+    get:
+      operationId: getZone
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Zone"
+          description: The Zone
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - zone
+    parameters:
+      - description: The Site Id
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+    put:
+      operationId: updateZone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                Id:
+                  format: int32
+                  type: integer
+                IsDeleted:
+                  default: false
+                  nullable: true
+                  type: boolean
+                Name:
+                  type: string
+                SiteId:
+                  format: int32
+                  nullable: true
+                  type: integer
+              required:
+                - Id
+                - Name
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Zone"
+          description: The updated Zone
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - zone
+schemas: {}
+servers:
+  - url: https://api.adzerk.net

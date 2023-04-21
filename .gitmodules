@@ -1,0 +1,3 @@
+[submodule "adzerk-api-specification"]
+	path = adzerk-api-specification
+	url = https://github.com/adzerk/adzerk-api-specification
