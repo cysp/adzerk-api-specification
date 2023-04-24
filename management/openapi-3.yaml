@@ -7,14 +7,16 @@ components:
           type: integer
         Id:
           format: int32
-          nullable: true
           type: integer
         Name:
-          nullable: true
           type: string
         Width:
           format: int32
           type: integer
+      required:
+        - Height
+        - Id
+        - Width
       type: object
     AdTypeList:
       properties:
@@ -34,6 +36,12 @@ components:
         totalPages:
           format: int32
           type: integer
+      required:
+        - items
+        - page
+        - pageSize
+        - totalItems
+        - totalPages
       type: object
     Channel:
       properties:
@@ -49,29 +57,28 @@ components:
         Commission:
           deprecated: true
           format: float
-          nullable: true
           type: number
         CustomTargeting:
           deprecated: true
-          nullable: true
           type: string
         Engine:
           default: "0"
-          nullable: true
           type: string
         Id:
           format: int32
-          nullable: true
           type: integer
         IsDeleted:
-          nullable: true
           type: boolean
         Keywords:
           deprecated: true
-          nullable: true
           type: string
         Title:
           type: string
+      required:
+        - AdTypes
+        - CPM
+        - Id
+        - Title
       type: object
     ChannelList:
       properties:
@@ -80,6 +87,8 @@ components:
             format: int32
             type: integer
           type: array
+      required:
+        - ChannelIds
       type: object
     ChannelSiteMap:
       properties:
@@ -89,15 +98,16 @@ components:
         FixedPaymentAmount:
           deprecated: true
           format: float
-          nullable: true
           type: number
         Priority:
           format: int32
-          nullable: true
           type: integer
         SiteId:
           format: int32
           type: integer
+      required:
+        - ChannelId
+        - SiteId
       type: object
     ChannelSiteMapList:
       properties:
@@ -117,20 +127,23 @@ components:
         totalPages:
           format: int32
           type: integer
+      required:
+        - items
+        - page
+        - pageSize
+        - totalItems
+        - totalPages
       type: object
     Priority:
       properties:
         ChannelId:
           format: int32
-          nullable: true
           type: integer
         FloorPrice:
           format: float
-          nullable: true
           type: number
         Id:
           format: int32
-          nullable: true
           type: integer
         IsAdChain:
           type: boolean
@@ -143,33 +156,35 @@ components:
         IsDeleted:
           type: boolean
         IsKeywordOptimized:
-          nullable: true
           type: boolean
         IsSecondPricing:
-          nullable: true
           type: boolean
         Name:
           type: string
         PassbackTimeout:
           format: int32
-          nullable: true
           type: integer
         RelevancyScoreConfig:
-          nullable: true
           type: string
         RelevancyScoreConfigJSON:
-          nullable: true
           type: string
         SelectionAlgorithm:
           format: int32
           type: integer
         SerializeRelevancyScoreConfigJSON:
-          nullable: true
           type: boolean
         Weight:
           format: int32
-          nullable: true
           type: integer
+      required:
+        - Id
+        - IsAdChain
+        - IsAdChainOptimized
+        - IsAdChainOrdered
+        - IsAuction
+        - IsDeleted
+        - Name
+        - SelectionAlgorithm
       type: object
     PriorityList:
       properties:
@@ -189,29 +204,35 @@ components:
         totalPages:
           format: int32
           type: integer
+      required:
+        - items
+        - page
+        - pageSize
+        - totalItems
+        - totalPages
       type: object
     Site:
       properties:
         Id:
           format: int32
-          nullable: true
           type: integer
         IsDeleted:
-          nullable: true
           type: boolean
         NetworkMargin:
           format: float
-          nullable: true
           type: number
         PublisherAccountId:
           deprecated: true
           format: int32
-          nullable: true
           type: integer
         Title:
           type: string
         Url:
           type: string
+      required:
+        - Id
+        - Title
+        - Url
       type: object
     SiteList:
       properties:
@@ -231,21 +252,29 @@ components:
         totalPages:
           format: int32
           type: integer
+      required:
+        - items
+        - page
+        - pageSize
+        - totalItems
+        - totalPages
       type: object
     Zone:
       properties:
         Id:
           format: int32
-          nullable: true
           type: integer
         IsDeleted:
-          nullable: true
           type: boolean
         Name:
           type: string
         SiteId:
           format: int32
           type: integer
+      required:
+        - Id
+        - Name
+        - SiteId
       type: object
     ZoneList:
       properties:
@@ -265,6 +294,12 @@ components:
         totalPages:
           format: int32
           type: integer
+      required:
+        - items
+        - page
+        - pageSize
+        - totalItems
+        - totalPages
       type: object
   securitySchemes:
     ApiKeyAuth:
@@ -325,8 +360,8 @@ paths:
                   format: int32
                   type: integer
               required:
-                - Width
                 - Height
+                - Width
               type: object
       responses:
         "200":
@@ -403,7 +438,6 @@ paths:
                   type: array
                 CPM:
                   format: float
-                  nullable: true
                   type: number
                 Engine:
                   default: 0
@@ -415,9 +449,9 @@ paths:
                 Title:
                   type: string
               required:
-                - Title
                 - AdTypes
                 - Engine
+                - Title
               type: object
       responses:
         "200":
@@ -486,8 +520,8 @@ paths:
                   format: int32
                   type: integer
               required:
-                - Width
                 - Height
+                - Width
               type: object
       responses:
         "200":
@@ -623,10 +657,10 @@ paths:
                 Title:
                   type: string
               required:
-                - Id
-                - Title
                 - AdTypes
                 - Engine
+                - Id
+                - Title
               type: object
       responses:
         "200":
@@ -730,8 +764,9 @@ paths:
                   format: int32
                   type: integer
               required:
-                - siteId
                 - channelId
+                - priority
+                - siteId
               type: object
       responses:
         "200":
@@ -761,9 +796,9 @@ paths:
                   format: int32
                   type: integer
               required:
-                - siteId
                 - channelId
                 - priority
+                - siteId
               type: object
       responses:
         "200":
@@ -873,11 +908,9 @@ paths:
               properties:
                 IsDeleted:
                   default: false
-                  nullable: true
                   type: boolean
                 NetworkMargin:
                   format: float
-                  nullable: true
                   type: number
                 Title:
                   type: string
@@ -933,11 +966,9 @@ paths:
                   type: integer
                 IsDeleted:
                   default: false
-                  nullable: true
                   type: boolean
                 NetworkMargin:
                   format: float
-                  nullable: true
                   type: number
                 Title:
                   type: string
@@ -1001,13 +1032,11 @@ paths:
               properties:
                 IsDeleted:
                   default: false
-                  nullable: true
                   type: boolean
                 Name:
                   type: string
                 SiteId:
                   format: int32
-                  nullable: true
                   type: integer
               required:
                 - Name
@@ -1057,13 +1086,11 @@ paths:
                   type: integer
                 IsDeleted:
                   default: false
-                  nullable: true
                   type: boolean
                 Name:
                   type: string
                 SiteId:
                   format: int32
-                  nullable: true
                   type: integer
               required:
                 - Id
