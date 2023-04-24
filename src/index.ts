@@ -1,7 +1,8 @@
 import path from "node:path";
 import { cwd } from "node:process";
-import { makeOperationId } from "./lib/operation-id";
+import { applyFixes } from "./lib/apply-fixes";
 import { embedRefs } from "./lib/embed-refs";
+import { makeOperationId } from "./lib/operation-id";
 import { readYamlFile, writeYamlFile } from "./lib/yaml-file";
 
 async function main() {
@@ -55,6 +56,8 @@ async function main() {
   }
 
   await embedRefs(combined, base);
+
+  applyFixes(combined);
 
   await writeYamlFile("management/openapi-3.yaml", combined);
 }
