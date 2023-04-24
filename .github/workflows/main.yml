@@ -1,0 +1,25 @@
+name: Lint generated files
+
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  lint-generated-files:
+    name: Lint generated files
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3.5.2
+        with:
+          submodules: 'recursive'
+      - uses: actions/setup-node@v2.5.2
+        with:
+          cache: npm
+          node-version: 18
+      - run: npm ci
+      - run: npm run generate
+      - run: git diff --exit-code
