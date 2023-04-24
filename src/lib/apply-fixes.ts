@@ -11,40 +11,40 @@ export function applyFixes(doc: any) {
       const schema =
         operation["requestBody"]?.["content"]?.["application/json"]?.["schema"];
 
-      const optionalRequestSchemaProperties =
-        optionalOperationRequestSchemaProperties[operation.operationId];
-      if (optionalRequestSchemaProperties) {
-        for (const name of optionalRequestSchemaProperties) {
-          schema["properties"][name]["nullable"] = true;
-        }
-      }
-
       if (schema) {
+        const optionalRequestSchemaProperties =
+          optionalOperationRequestSchemaProperties[operation.operationId];
+        if (optionalRequestSchemaProperties) {
+          for (const name of optionalRequestSchemaProperties) {
+            const property = schema["properties"][name];
+            if (property) {
+              property["nullable"] = true;
+            }
+          }
+        }
+
         applySchemaFixes(schema);
       }
-      // if (requiredProperties) {
-      //   operation["requestBody"]["content"]["application/json"]["schema"][
-      //     "required"
-      //   ] = requiredProperties;
-      // }
     }
   }
 }
 
 const optionalOperationRequestSchemaProperties = {
-  createChannel: ["AdTypes"],
-  updateChannel: ["AdTypes"],
+  createAdType: ["Name"],
+  createForChannelAdType: ["Name"],
+  createChannel: ["AdTypes", "IsDeleted"],
+  updateChannel: ["AdTypes", "IsDeleted"],
 };
 
 function applySchemaFixes(schema: any) {
   if (schema["properties"]["Id"]) {
     delete schema["properties"]["Id"]["nullable"];
   }
-  if (!schema["required"]) {
-    schema["required"] = Object.entries(schema["properties"])
-      .filter(([, property]) => !property["nullable"])
-      .map(([name]) => name);
-  }
+
+  schema["required"] = Object.entries(schema["properties"])
+    .filter(([, property]) => !property["nullable"])
+    .map(([name]) => name);
+
   for (const [, property] of Object.entries(schema["properties"])) {
     delete property["nullable"];
   }

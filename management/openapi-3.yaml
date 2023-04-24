@@ -450,7 +450,6 @@ paths:
                   type: string
               required:
                 - Title
-                - AdTypes
                 - Engine
               type: object
       responses:
@@ -659,7 +658,6 @@ paths:
               required:
                 - Id
                 - Title
-                - AdTypes
                 - Engine
               type: object
       responses:
@@ -766,6 +764,7 @@ paths:
               required:
                 - siteId
                 - channelId
+                - priority
               type: object
       responses:
         "200":
