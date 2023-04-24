@@ -61,7 +61,6 @@ components:
           type: string
         Id:
           format: int32
-          nullable: true
           type: integer
         IsDeleted:
           nullable: true
@@ -403,7 +402,6 @@ paths:
                   type: array
                 CPM:
                   format: float
-                  nullable: true
                   type: number
                 Engine:
                   default: 0
@@ -416,7 +414,6 @@ paths:
                   type: string
               required:
                 - Title
-                - AdTypes
                 - Engine
               type: object
       responses:
@@ -625,7 +622,6 @@ paths:
               required:
                 - Id
                 - Title
-                - AdTypes
                 - Engine
               type: object
       responses:
@@ -873,11 +869,9 @@ paths:
               properties:
                 IsDeleted:
                   default: false
-                  nullable: true
                   type: boolean
                 NetworkMargin:
                   format: float
-                  nullable: true
                   type: number
                 Title:
                   type: string
@@ -933,11 +927,9 @@ paths:
                   type: integer
                 IsDeleted:
                   default: false
-                  nullable: true
                   type: boolean
                 NetworkMargin:
                   format: float
-                  nullable: true
                   type: number
                 Title:
                   type: string
