@@ -43,6 +43,7 @@ components:
         - totalItems
         - totalPages
       type: object
+    AnyValue: {}
     Channel:
       properties:
         AdTypes:
@@ -133,6 +134,121 @@ components:
         - pageSize
         - totalItems
         - totalPages
+      type: object
+    CreativeTemplate:
+      properties:
+        Contents:
+          items:
+            $ref: "#/components/schemas/CreativeTemplateContents"
+          type: array
+        Description:
+          type: string
+        Fields:
+          items:
+            $ref: "#/components/schemas/CreativeTemplateField"
+          type: array
+        Id:
+          format: int32
+          type: integer
+        IsArchived:
+          type: boolean
+        Name:
+          type: string
+      required:
+        - Contents
+        - Description
+        - Fields
+        - Id
+        - IsArchived
+        - Name
+      type: object
+    CreativeTemplateContents:
+      properties:
+        Body:
+          type: string
+        Type:
+          type: string
+      required:
+        - Body
+        - Type
+      type: object
+    CreativeTemplateField:
+      properties:
+        Default:
+          type: object
+        Description:
+          type: string
+        Hidden:
+          type: boolean
+        Name:
+          type: string
+        Required:
+          type: boolean
+        Type:
+          type: string
+        Variable:
+          type: string
+      required:
+        - Default
+        - Description
+        - Hidden
+        - Name
+        - Required
+        - Type
+        - Variable
+      type: object
+    CreativeTemplateList:
+      properties:
+        items:
+          items:
+            $ref: "#/components/schemas/CreativeTemplate"
+          type: array
+        page:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        totalItems:
+          format: int64
+          type: integer
+        totalPages:
+          format: int32
+          type: integer
+      required:
+        - items
+        - page
+        - pageSize
+        - totalItems
+        - totalPages
+      type: object
+    CreativeTemplateUpdate:
+      properties:
+        Updates:
+          items:
+            $ref: "#/components/schemas/CreativeTemplateUpdateOperation"
+          type: array
+      required:
+        - Updates
+      type: object
+    CreativeTemplateUpdateOperation:
+      properties:
+        Op:
+          default: Update
+          enum:
+            - Update
+            - Delete
+            - InsertAfter
+          type: string
+        Path:
+          items:
+            type: string
+          type: array
+        Value:
+          $ref: "#/components/schemas/AnyValue"
+      required:
+        - Path
+        - Value
       type: object
     Priority:
       properties:
@@ -1107,6 +1223,191 @@ paths:
         - ApiKeyAuth: []
       tags:
         - zone
+  /v2/creative-templates:
+    get:
+      description: List Creative Templates
+      operationId: listCreativeTemplates
+      parameters:
+        - description: The size of the page to be returned
+          in: query
+          name: pageSize
+          required: false
+          schema:
+            default: 500
+            format: int32
+            nullable: true
+            type: integer
+        - description: The page number to be returned
+          in: query
+          name: page
+          required: false
+          schema:
+            format: int32
+            nullable: true
+            type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreativeTemplateList"
+          description: A paged list of Creative Templates
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - creative-template
+    post:
+      description: Create new Creative Template
+      operationId: createCreativeTemplate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                Contents:
+                  items:
+                    properties:
+                      Body:
+                        maxLength: 10000
+                        nullable: true
+                        type: string
+                      Type:
+                        enum:
+                          - HTML
+                          - JavaScript
+                          - JavaScriptExternal
+                          - CSS
+                          - Raw
+                        type: string
+                    required:
+                      - Type
+                    type: object
+                  type: array
+                Description:
+                  maxLength: 100
+                  minLength: 1
+                  type: string
+                Fields:
+                  items:
+                    properties:
+                      AdQuery:
+                        nullable: true
+                        type: boolean
+                      Default:
+                        nullable: true
+                        type: object
+                      Description:
+                        nullable: true
+                        type: string
+                      Hidden:
+                        default: false
+                        type: boolean
+                      Name:
+                        maxLength: 255
+                        type: string
+                      Required:
+                        default: false
+                        type: boolean
+                      Type:
+                        enum:
+                          - String
+                          - File
+                          - ExternalFile
+                          - Array
+                          - Object
+                        type: string
+                      Variable:
+                        pattern: ^ct[a-zA-Z0-9]+
+                        type: string
+                    required:
+                      - Name
+                      - Variable
+                      - Type
+                    type: object
+                  type: array
+                IsArchived:
+                  default: false
+                  type: boolean
+                Name:
+                  maxLength: 50
+                  minLength: 1
+                  type: string
+              required:
+                - Contents
+                - Description
+                - Fields
+                - IsArchived
+                - Name
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreativeTemplate"
+          description: The newly created Creative Template
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - creative-template
+  "/v2/creative-templates/{id}":
+    get:
+      description: Get an existing Creative Template
+      operationId: getCreativeTemplate
+      parameters:
+        - description: The Id of the Creative Template to update
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int32
+            type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreativeTemplate"
+          description: The Creative Template
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - creative-template
+  "/v2/creative-templates/{id}/update":
+    post:
+      description: Update an existing Creative Template
+      operationId: updateCreativeTemplate
+      parameters:
+        - description: The Id of the Creative Template to update
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int32
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                Updates:
+                  items:
+                    $ref: "#/components/schemas/CreativeTemplateUpdateOperation"
+                  type: array
+              required:
+                - Updates
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreativeTemplate"
+          description: The updated Creative Template
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - creative-template
 schemas: {}
 servers:
   - url: https://api.adzerk.net

@@ -3,6 +3,29 @@ export function applyFixes(doc: any) {
     applySchemaFixes(schema);
   }
 
+  if (!doc["components"]["schemas"]["AnyValue"]) {
+    doc["components"]["schemas"]["AnyValue"] = {};
+  }
+
+  if (doc["paths"]["/v2/creative-templates/{id}/update"]?.["post"]) {
+    const creativeTemplateUpdateOperationSchema =
+      doc["paths"]["/v2/creative-templates/{id}/update"]["post"].requestBody
+        .content["application/json"].schema.properties.Updates.items;
+    creativeTemplateUpdateOperationSchema.properties.Value = {
+      $ref: "#/components/schemas/AnyValue",
+    };
+    creativeTemplateUpdateOperationSchema.required = ["Path", "Value"];
+    doc["components"]["schemas"]["CreativeTemplateUpdateOperation"] =
+      creativeTemplateUpdateOperationSchema;
+
+    doc["paths"]["/v2/creative-templates/{id}/update"][
+      "post"
+    ].requestBody.content["application/json"].schema.properties.Updates.items =
+      {
+        $ref: "#/components/schemas/CreativeTemplateUpdateOperation",
+      };
+  }
+
   for (const [, operations] of Object.entries(doc.paths)) {
     for (const [, operation] of Object.entries(operations as any) as any) {
       const schema =
