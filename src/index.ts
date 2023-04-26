@@ -39,6 +39,7 @@ async function main() {
     "channel",
     "channel-site-map",
     "site",
+    "user",
     "zone",
   ]) {
     const filename = `${entityName}.yaml`;

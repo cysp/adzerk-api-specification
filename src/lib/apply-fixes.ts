@@ -31,6 +31,8 @@ const optionalOperationRequestSchemaProperties = {
   createForChannelAdType: ["Name"],
   createChannel: ["IsDeleted"],
   updateChannel: ["IsDeleted"],
+  createUser: ["CanAccessStudio", "Password"],
+  updateUser: ["CanAccessStudio", "Password"],
 };
 
 function applySchemaFixes(schema: any) {

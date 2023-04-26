@@ -1,5 +1,12 @@
 components:
   schemas:
+    AccessLevel:
+      enum:
+        - read
+        - amgr
+        - edit
+        - admn
+      type: string
     AdType:
       properties:
         Height:
@@ -249,6 +256,57 @@ components:
         items:
           items:
             $ref: "#/components/schemas/Site"
+          type: array
+        page:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        totalItems:
+          format: int64
+          type: integer
+        totalPages:
+          format: int32
+          type: integer
+      required:
+        - items
+        - page
+        - pageSize
+        - totalItems
+        - totalPages
+      type: object
+    User:
+      properties:
+        AccessLevel:
+          $ref: "#/components/schemas/AccessLevel"
+        CanAccessStudio:
+          type: boolean
+        DefaultTimeZone:
+          type: string
+        Email:
+          type: string
+        Id:
+          format: int32
+          type: integer
+        Name:
+          type: string
+        Password:
+          type: string
+      required:
+        - AccessLevel
+        - CanAccessStudio
+        - DefaultTimeZone
+        - Email
+        - Id
+        - Name
+        - Password
+      type: object
+    UserList:
+      properties:
+        items:
+          items:
+            $ref: "#/components/schemas/User"
           type: array
         page:
           format: int32
@@ -877,6 +935,128 @@ paths:
         - ApiKeyAuth: []
       tags:
         - site
+  /v1/login:
+    get:
+      operationId: listUsers
+      parameters:
+        - description: The size of the page to be returned
+          in: query
+          name: pageSize
+          required: false
+          schema:
+            default: 500
+            format: int32
+            nullable: true
+            type: integer
+        - description: The page number to be returned
+          in: query
+          name: page
+          required: false
+          schema:
+            format: int32
+            nullable: true
+            type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserList"
+          description: A paged list of Scheduled Reports
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - user
+    post:
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                AccessLevel:
+                  $ref: "#/components/schemas/AccessLevel"
+                CanAccessStudio:
+                  type: boolean
+                DefaultTimeZone:
+                  type: string
+                Email:
+                  type: string
+                Name:
+                  type: string
+                Password:
+                  type: string
+              required:
+                - Email
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+          description: The user
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - user
+  /v1/login/{id}:
+    get:
+      operationId: getUser
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+          description: The User
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - user
+    parameters:
+      - description: Id of the User to update
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+    put:
+      operationId: updateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                AccessLevel:
+                  $ref: "#/components/schemas/AccessLevel"
+                CanAccessStudio:
+                  type: boolean
+                DefaultTimeZone:
+                  type: string
+                Email:
+                  type: string
+                Name:
+                  type: string
+                id:
+                  format: int32
+                  type: integer
+              required:
+                - Email
+                - Name
+                - id
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+          description: Updated User
+      security:
+        - ApiKeyAuth: []
+      tags:
+        - user
   /v1/site:
     get:
       operationId: listSites
