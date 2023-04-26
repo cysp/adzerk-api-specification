@@ -175,7 +175,7 @@ components:
     CreativeTemplateField:
       properties:
         Default:
-          type: object
+          $ref: "#/components/schemas/AnyValue"
         Description:
           type: string
         Hidden:
@@ -953,7 +953,8 @@ paths:
     get:
       operationId: filterSite
       parameters:
-        - description: Filters the stream of sites based on the Title. This is a simple
+        - description:
+            Filters the stream of sites based on the Title. This is a simple
             match - if the string provided in the query parameter is present
             anywhere in a site's Title, that site will be returned in the
             results.
@@ -963,7 +964,8 @@ paths:
           schema:
             nullable: true
             type: string
-        - description: Filters the stream of sites based on the Url. This is a simple
+        - description:
+            Filters the stream of sites based on the Url. This is a simple
             match - if the string provided in the query parameter is present
             anywhere in a site's Url, that site will be returned in the results.
           in: query
