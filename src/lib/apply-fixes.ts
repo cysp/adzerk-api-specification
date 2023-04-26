@@ -34,16 +34,18 @@ const optionalOperationRequestSchemaProperties = {
 };
 
 function applySchemaFixes(schema: any) {
-  if (schema["properties"]["Id"]) {
-    delete schema["properties"]["Id"]["nullable"];
-  }
+  if (schema["properties"]) {
+    if (schema["properties"]["Id"]) {
+      delete schema["properties"]["Id"]["nullable"];
+    }
 
-  schema["required"] = Object.entries(schema["properties"])
-    .filter(([, property]) => !property["nullable"])
-    .map(([name]) => name)
-    .sort();
+    schema["required"] = Object.entries(schema["properties"])
+      .filter(([, property]) => !property["nullable"])
+      .map(([name]) => name)
+      .sort();
 
-  for (const [, property] of Object.entries(schema["properties"])) {
-    delete property["nullable"];
+    for (const [, property] of Object.entries(schema["properties"])) {
+      delete property["nullable"];
+    }
   }
 }
