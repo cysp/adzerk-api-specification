@@ -38,6 +38,7 @@ async function main() {
     "ad-type",
     "channel",
     "channel-site-map",
+    "creative-template",
     "site",
     "zone",
   ]) {
