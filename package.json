@@ -10,7 +10,7 @@
   "devDependencies": {
     "@swc-node/register": "1.6.7",
     "@tsconfig/node18": "18.2.0",
-    "@types/node": "18.17.6",
+    "@types/node": "18.18.3",
     "typescript": "5.1.6"
   },
   "dependencies": {
