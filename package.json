@@ -8,7 +8,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@swc-node/register": "1.6.8",
+    "@swc-node/register": "1.9.1",
     "@tsconfig/node18": "18.2.4",
     "@types/node": "18.18.10",
     "typescript": "5.4.5"
