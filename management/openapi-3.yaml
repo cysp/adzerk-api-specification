@@ -139,6 +139,9 @@ components:
         ChannelId:
           format: int32
           type: integer
+        FloorCPC:
+          format: float
+          type: number
         FloorPrice:
           format: float
           type: number
@@ -167,6 +170,8 @@ components:
         RelevancyScoreConfig:
           type: string
         RelevancyScoreConfigJSON:
+          type: string
+        SecondPriceGroupBy:
           type: string
         SelectionAlgorithm:
           format: int32
@@ -213,6 +218,11 @@ components:
       type: object
     Site:
       properties:
+        CustomRelevancyScore:
+          format: int32
+          maximum: 1000
+          minimum: 1
+          type: integer
         Id:
           format: int32
           type: integer
@@ -906,6 +916,11 @@ paths:
           application/json:
             schema:
               properties:
+                CustomRelevancyScore:
+                  format: int32
+                  maximum: 1000
+                  minimum: 1
+                  type: integer
                 IsDeleted:
                   default: false
                   type: boolean
@@ -961,6 +976,11 @@ paths:
           application/json:
             schema:
               properties:
+                CustomRelevancyScore:
+                  format: int32
+                  maximum: 1000
+                  minimum: 1
+                  type: integer
                 Id:
                   format: int32
                   type: integer
