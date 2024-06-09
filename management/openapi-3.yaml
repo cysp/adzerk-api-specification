@@ -374,7 +374,7 @@ paths:
         - ApiKeyAuth: []
       tags:
         - ad-type
-  "/v1/adtypes/{id}/delete":
+  /v1/adtypes/{id}/delete:
     get:
       operationId: deleteAdType
       parameters:
@@ -464,7 +464,7 @@ paths:
         - ApiKeyAuth: []
       tags:
         - channel
-  "/v1/channel/{channelId}/adtypes":
+  /v1/channel/{channelId}/adtypes:
     get:
       operationId: listForChannelAdType
       parameters:
@@ -534,7 +534,7 @@ paths:
         - ApiKeyAuth: []
       tags:
         - ad-type
-  "/v1/channel/{channelId}/adtypes/{id}/delete":
+  /v1/channel/{channelId}/adtypes/{id}/delete:
     get:
       operationId: deleteForChannelAdType
       parameters:
@@ -559,7 +559,7 @@ paths:
         - ApiKeyAuth: []
       tags:
         - ad-type
-  "/v1/channel/{channelId}/site/{siteId}":
+  /v1/channel/{channelId}/site/{siteId}:
     get:
       operationId: getChannelSiteMap
       parameters:
@@ -588,7 +588,7 @@ paths:
         - ApiKeyAuth: []
       tags:
         - channel-site-map
-  "/v1/channel/{channelId}/site/{siteId}/delete":
+  /v1/channel/{channelId}/site/{siteId}/delete:
     get:
       operationId: deleteChannelSiteMap
       parameters:
@@ -613,7 +613,7 @@ paths:
         - ApiKeyAuth: []
       tags:
         - channel-site-map
-  "/v1/channel/{id}":
+  /v1/channel/{id}:
     get:
       operationId: getChannel
       responses:
@@ -673,7 +673,7 @@ paths:
         - ApiKeyAuth: []
       tags:
         - channel
-  "/v1/channel/{id}/delete":
+  /v1/channel/{id}/delete:
     get:
       operationId: deleteChannel
       parameters:
@@ -691,7 +691,7 @@ paths:
         - ApiKeyAuth: []
       tags:
         - channel
-  "/v1/channel/{id}/priorities":
+  /v1/channel/{id}/priorities:
     get:
       operationId: getPrioritiesChannel
       parameters:
@@ -811,7 +811,7 @@ paths:
         - ApiKeyAuth: []
       tags:
         - channel-site-map
-  "/v1/channelsInSite/{siteId}":
+  /v1/channelsInSite/{siteId}:
     get:
       operationId: listChannelsForSiteChannelSiteMap
       parameters:
@@ -932,7 +932,7 @@ paths:
         - ApiKeyAuth: []
       tags:
         - site
-  "/v1/site/{id}":
+  /v1/site/{id}:
     get:
       operationId: getSite
       responses:
@@ -1052,7 +1052,7 @@ paths:
         - ApiKeyAuth: []
       tags:
         - zone
-  "/v1/zone/{id}":
+  /v1/zone/{id}:
     get:
       operationId: getZone
       responses:
